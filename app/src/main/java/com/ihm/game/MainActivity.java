@@ -1,21 +1,38 @@
 package com.ihm.game;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ihm.game.controllers.AccelerometerController;
+import com.vikramezhil.droidspeech.DroidSpeech;
+import com.vikramezhil.droidspeech.OnDSListener;
+import com.vikramezhil.droidspeech.OnDSPermissionsListener;
 
-public class MainActivity extends Activity implements  OnDSListener, OnDSPermissionsListener {
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
+
+public class MainActivity extends Activity implements OnDSListener, OnDSPermissionsListener {
 
     public static Point screenSize;
     private SensorManager senSensorManager;
     private AccelerometerController accelerometer;
     private DroidSpeech droidSpeech;
+    public GameView gv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,32 +42,42 @@ public class MainActivity extends Activity implements  OnDSListener, OnDSPermiss
         screenSize = new Point();
         getWindowManager(). getDefaultDisplay().getSize(screenSize);
 
+
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = new AccelerometerController(senSensorManager);
 
+        this.checkPermission();
         //test speech
         droidSpeech = new DroidSpeech(this, getFragmentManager());
         droidSpeech.setOnDroidSpeechListener(this);
-        droidSpeech.setShowRecognitionProgressView(true);
-        droidSpeech.setOneStepResultVerify(true);
-        droidSpeech.setRecognitionProgressMsgColor(Color.WHITE);
-        droidSpeech.setOneStepVerifyConfirmTextColor(Color.WHITE);
-        droidSpeech.setOneStepVerifyRetryTextColor(Color.WHITE);
+        if(droidSpeech.getContinuousSpeechRecognition() == true)
+            droidSpeech.closeDroidSpeechOperations();
+        droidSpeech.startDroidSpeechRecognition();
 
-
-        GameView gv = new GameView(this);
+        gv = new GameView(this);
         gv.addController(accelerometer);
         setContentView(gv);
+
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         accelerometer.onPause();
+        droidSpeech.closeDroidSpeechOperations();
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         accelerometer.onResume();
+        droidSpeech.startDroidSpeechRecognition();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        droidSpeech.closeDroidSpeechOperations();
     }
 
 
@@ -82,19 +109,30 @@ public class MainActivity extends Activity implements  OnDSListener, OnDSPermiss
     @Override
     public void onDroidSpeechLiveResult(String liveSpeechResult)
     {
+        if(liveSpeechResult.contains("vert")||liveSpeechResult.contains("verre")||liveSpeechResult.contains("vers")){
+            gv.player.color = Color.GREEN;
+        }
+        if(liveSpeechResult.contains("rouge")){
+            gv.player.color = Color.RED;
+        }
+        if(liveSpeechResult.contains("bleu")){
+            gv.player.color = Color.BLUE;
+        }
+        droidSpeech.closeDroidSpeechOperations();
+        droidSpeech.startDroidSpeechRecognition();
         Log.i(TAG, "Live speech result = " + liveSpeechResult);
     }
 
     @Override
     public void onDroidSpeechFinalResult(String finalSpeechResult)
     {
-
+        Log.i(TAG,"final");
     }
 
     @Override
     public void onDroidSpeechClosedByUser()
     {
-
+        Log.i(TAG,"close");
     }
 
     @Override
@@ -102,6 +140,7 @@ public class MainActivity extends Activity implements  OnDSListener, OnDSPermiss
     {
         // Speech error
         Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        Log.i(TAG,errorMsg);
 
     }
 
@@ -110,12 +149,16 @@ public class MainActivity extends Activity implements  OnDSListener, OnDSPermiss
     @Override
     public void onDroidSpeechAudioPermissionStatus(boolean audioPermissionGiven, String errorMsgIfAny)
     {
+        Log.i("DEBUG", "PASSAGE");
         if(audioPermissionGiven)
         {
 
         }
         else
         {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    1);
             if(errorMsgIfAny != null)
             {
                 // Permissions error
@@ -123,5 +166,15 @@ public class MainActivity extends Activity implements  OnDSListener, OnDSPermiss
             }
 
         }
+    }
+
+    private void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    1);
+        }
+
     }
 }

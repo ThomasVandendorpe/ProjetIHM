@@ -16,7 +16,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private ArrayList<Controller> controllers;
 
-    private RectangleNode player;
+    public RectangleNode player;
 
     public GameView(Context context){
         super(context);
