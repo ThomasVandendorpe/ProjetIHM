@@ -1,14 +1,3 @@
-cmudict-en-us.dict
-digits.gram
-en-phone.dmp
-en-us-ptm/README
-en-us-ptm/feat.params
-en-us-ptm/mdef
-en-us-ptm/means
-en-us-ptm/noisedict
-en-us-ptm/sendump
-en-us-ptm/transition_matrices
-en-us-ptm/variances
 fr-fr-ptm/README
 fr-fr-ptm/feat.params
 fr-fr-ptm/mdef
@@ -20,6 +9,4 @@ fr-fr-ptm/transition_matrices
 fr-fr-ptm/variances
 fr-phone.lm.dmp
 fr.dict
-menu.gram
 nombres.gram
-weather.dmp
