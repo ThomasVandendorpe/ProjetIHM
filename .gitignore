@@ -82,4 +82,4 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-pocketsphinx-android-5prealpha-release/
+pocketsphinx-android-5prealpha-release/build/
