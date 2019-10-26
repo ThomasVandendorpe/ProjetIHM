@@ -1,0 +1,4 @@
+#JSGF V1.0;
+grammar numeros;
+<numero> = rouge | vert | bleu ;
+public <numeros> = <numero>+;

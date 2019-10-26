@@ -14,7 +14,7 @@ public class AccelerometerController implements SensorEventListener, Controller 
     private Sensor senAccelerometer;
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
-    private static final int THRESHOLD = 2;
+    private static final int THRESHOLD = 0;
     private static final int MAX_VALUE = 5;
 
     public AccelerometerController(SensorManager senSensorManager){

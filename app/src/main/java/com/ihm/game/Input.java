@@ -1,6 +1,8 @@
 package com.ihm.game;
 
 
+import android.graphics.Color;
+
 import com.ihm.game.maths.Vector2;
 
 public class Input {
@@ -9,6 +11,8 @@ public class Input {
 
     private float x=0;
     private float y=0;
+
+    private int color = Color.RED;
 
     private Input(){
 
@@ -35,5 +39,13 @@ public class Input {
 
     public static void setY(float y) {
         getInstance().y = y;
+    }
+
+    public static void setActionColor(int color){
+        getInstance().color = color;
+    }
+
+    public static int getActionColorValue(){
+        return getInstance().color;
     }
 }

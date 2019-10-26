@@ -3,12 +3,11 @@ package com.ihm.game;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.ihm.game.controllers.Controller;
-import com.ihm.game.nodes.RectangleNode;
+import com.ihm.game.nodes.PlayerNode;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private ArrayList<Controller> controllers;
 
-    public RectangleNode player;
+    public PlayerNode player;
 
     public GameView(Context context){
         super(context);
@@ -24,7 +23,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(),this);
         controllers = new ArrayList<>();
 
-        player = new RectangleNode(100,100,100,100, Color.RED);
+        player = new PlayerNode(100,100,25, Color.RED);
 
         setFocusable(true);
 
@@ -54,27 +53,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {//TODO: supprimer -> pas de controller ici
-        if(player.color==Color.RED){
-            player.color = Color.GREEN;
-        }
-        else if(player.color==Color.GREEN){
-            player.color = Color.BLUE;
-        }
-        else{
-            player.color = Color.RED;
-        }
-        return super.onTouchEvent(event);
+        getHolder().getSurface().release();
     }
 
     public void update(float dt){
         Input.reset();
         for(Controller c : controllers)
             c.update();
-        player.update(dt);
+        player.updateAll(dt);
     }
 
     @Override
@@ -83,7 +69,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return;
         super.draw(canvas);
         canvas.drawColor(Color.DKGRAY);
-        player.draw(canvas);
+        player.drawAll(canvas);
     }
 
     public void addController(Controller controller){

@@ -26,7 +26,7 @@ public class MainThread extends Thread{
         long startTime;
         long timeMillis = 1000/MAX_FPS;
         long waitTime = 0;
-        long timeLastFrame = 0;
+        long timeLastFrame = System.currentTimeMillis();
         int frameCount = 0;
         long totalTime = 0;
         long targetTime = 1000/MAX_FPS;

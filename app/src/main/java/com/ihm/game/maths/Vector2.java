@@ -25,4 +25,9 @@ public class Vector2 {
             return new Vector2();
         return new Vector2(x/l,y/l);
     }
+
+    @Override
+    public String toString() {
+        return "Vector2("+x+","+y+")";
+    }
 }
