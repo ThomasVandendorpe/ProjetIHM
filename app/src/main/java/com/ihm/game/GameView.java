@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 
 import com.ihm.game.controllers.Controller;
 import com.ihm.game.nodes.PlayerNode;
+import com.ihm.game.nodes.RootNode;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private ArrayList<Controller> controllers;
 
-    public PlayerNode player;
+    private RootNode root;
 
     public GameView(Context context){
         super(context);
@@ -23,7 +24,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(),this);
         controllers = new ArrayList<>();
 
-        player = new PlayerNode(100,100,25, Color.RED);
+        root = new RootNode();
 
         setFocusable(true);
 
@@ -60,7 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Input.reset();
         for(Controller c : controllers)
             c.update();
-        player.updateAll(dt);
+        root.updateAll(dt);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return;
         super.draw(canvas);
         canvas.drawColor(Color.DKGRAY);
-        player.drawAll(canvas);
+        root.drawAll(canvas);
     }
 
     public void addController(Controller controller){

@@ -17,7 +17,7 @@ public class PlayerTrailNode extends Node2D {
 
     public PlayerTrailNode(PlayerNode player, float delay, float speed){
         this.player = player;
-        this.r = player.r;
+        this.r = player.rayon;
         this.speed = speed;
         this.delay = delay;
         this.position = new Vector2(player.position.x,player.position.y);

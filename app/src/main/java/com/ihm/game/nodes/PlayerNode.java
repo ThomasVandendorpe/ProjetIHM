@@ -1,41 +1,55 @@
 package com.ihm.game.nodes;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
-
 import com.ihm.game.Input;
 import com.ihm.game.MainActivity;
 import com.ihm.game.maths.Vector2;
 
 public class PlayerNode extends Node2D {
 
-    public int r;
+    public int rayon = 30;
     public float speed = 500; //vitesse max en pixel/sec
-    public int color;
+    public int color = Color.RED;
+    public int size = 1;
+
     public Vector2 lastDirection = new Vector2(1,0);
 
-    public PlayerNode(int x, int y, int r, int color){
-        this.color = color;
+    private RootNode root;
+
+    public PlayerNode(int x, int y, RootNode root){
         position = new Vector2(x,y);
-        this.r = r;
+        setSize(1);
+        setSpeed(speed);
+        this.root = root;
     }
 
     private float delayTrail = 0.05f;
     private float time = delayTrail;
+    private float trailLifeTime = 0;
 
     @Override
     public void update(float dt) {
+
+        checkCollisions();
+
         if(Input.getAxis().length()>0)
             lastDirection = Input.getAxis().normalized();
         Vector2 dir = new Vector2(lastDirection.x,lastDirection.y);
         dir.x *= speed*dt;
         dir.y *= speed*dt;
-        if(!((position.x<0 && dir.x<0) || (position.x+r> MainActivity.screenSize.x && dir.x>0)))
-          position.x += dir.x;
-        if(!((position.y<0 && dir.y<0) || (position.y+r> MainActivity.screenSize.y && dir.y>0)))
-            position.y += dir.y;
+        position.x += dir.x;
+        position.y += dir.y;
+        if(position.x<0)
+            position.x = MainActivity.screenSize.x;
+        if(position.x > MainActivity.screenSize.x)
+            position.x = 0;
+        if(position.y<0)
+            position.y = MainActivity.screenSize.y;
+        if(position.y > MainActivity.screenSize.y)
+            position.y = 0;
         if(Input.getActionColorValue()!=color){
             color = Input.getActionColorValue();
         }
@@ -43,12 +57,27 @@ public class PlayerNode extends Node2D {
         //instanciate trail
         if(time>delayTrail){
             System.out.println("SPAWN");
-            addChild(new PlayerTrailNode(this, 0.5f,100f));
+            addChild(new PlayerTrailNode(this, trailLifeTime,100f));
             time=0;
         }
         else{
             time+=dt;
         }
+
+    }
+
+    /**
+     * size==1 => trail de environ 100pixel
+     * @param size
+     */
+    public void setSize(int size){
+        this.size = size;
+        trailLifeTime = size/10f;
+    }
+
+    public void setSpeed(float speed){
+        this.speed = speed;
+        this.delayTrail = (rayon*0.5f)/speed;
     }
 
     @Override
@@ -56,6 +85,21 @@ public class PlayerNode extends Node2D {
         Paint p = new Paint();
         p.setColor(color);
         //canvas.drawRect(new Rect((int)position.x,(int)position.y,(int)position.x+w,(int)position.y+h), p);
-        canvas.drawCircle((int)position.x,(int)position.y,r,p);
+        canvas.drawCircle((int)position.x,(int)position.y,rayon,p);
+    }
+
+    private void checkCollisions(){
+        Rect rect = new Rect((int)position.x-rayon,(int)position.y-rayon,(int)position.x+rayon,(int)position.y+rayon);
+        AppleNode apple = root.getApple();
+        if(rect.right >= apple.rect.left &&
+                rect.left <= apple.rect.right &&
+                rect.bottom >= apple.rect.top &&
+                rect.top <= apple.rect.bottom){
+            if(apple.color == color) {
+                root.spawnApple();
+                setSize(size + 2);
+                setSpeed(speed + 25f);
+            }
+        }
     }
 }
