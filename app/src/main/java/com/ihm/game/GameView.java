@@ -11,11 +11,11 @@ import com.ihm.game.nodes.PlayerNode;
 import com.ihm.game.nodes.RootNode;
 
 import java.util.ArrayList;
+import android.graphics.Point;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private ArrayList<Controller> controllers;
-
     private RootNode root;
 
     public GameView(Context context){
@@ -27,7 +27,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         root = new RootNode();
 
         setFocusable(true);
-
     }
 
     @Override

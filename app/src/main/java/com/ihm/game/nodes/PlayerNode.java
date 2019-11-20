@@ -24,6 +24,8 @@ public class PlayerNode extends Node2D {
         setSize(1);
         setSpeed(speed);
         this.root = root;
+        float factor_size = (float)(MainActivity.screenSize.y/1600.0);
+        this.rayon = (int) (rayon*factor_size);
     }
 
     private float delayTrail = 0.05f;
@@ -56,6 +58,7 @@ public class PlayerNode extends Node2D {
 
         //instanciate trail
         if(time>delayTrail){
+            System.out.println(rayon);
             System.out.println("SPAWN");
             addChild(new PlayerTrailNode(this, trailLifeTime,100f));
             time=0;

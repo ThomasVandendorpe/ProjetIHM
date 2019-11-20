@@ -27,7 +27,7 @@ public class RootNode extends Node2D {
         if(apple!=null){
             removeChild(apple);
         }
-        apple = new AppleNode((int)(Math.random()* (MainActivity.screenSize.x-100)),(int)(Math.random()*(MainActivity.screenSize.y-100)));
+        apple = new AppleNode((int)(Math.random()* (MainActivity.screenSize.x-100)),(int)(Math.random()*(MainActivity.screenSize.y-100)),(MainActivity.screenSize));
         int color = Color.RED;//TODO: meilleur système de couleur
         int r = (int)(Math.random() * 3);
         if(r==1)
