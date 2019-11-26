@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Node2D{
 
     public Vector2 position = new Vector2();
-    private ArrayList<Node2D> children = new ArrayList<>();
+    protected ArrayList<Node2D> children = new ArrayList<>();
     private LinkedList<Node2D> addQueue = new LinkedList<>();
     private LinkedList<Node2D> removeQueue = new LinkedList<>();
 

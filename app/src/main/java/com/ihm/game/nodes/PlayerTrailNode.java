@@ -15,6 +15,10 @@ public class PlayerTrailNode extends Node2D {
     private float delay = 0;
     private float startTime = 0;
 
+    private float activatedDelay = 0.2f;
+    private boolean activated = false;
+    private boolean hasBeenActivated = false;
+
     public PlayerTrailNode(PlayerNode player, float delay, float speed){
         this.player = player;
         this.r = player.rayon;
@@ -26,8 +30,18 @@ public class PlayerTrailNode extends Node2D {
 
     @Override
     public void update(float dt) {
+        if(player.root.isGameOver)
+            return;
+
+        if(!activated && !hasBeenActivated && startTime>activatedDelay) {
+            activated = true;
+            hasBeenActivated = true;
+        }
+
         if(startTime>delay){
             r -= speed*dt;
+            if(activated)
+                activated = false;
         }
         else{
             startTime+=dt;
@@ -41,5 +55,13 @@ public class PlayerTrailNode extends Node2D {
         Paint p = new Paint();
         p.setColor(player.color);
         canvas.drawCircle((int)position.x,(int)position.y,r,p);
+    }
+
+    public boolean canKill(){
+        return activated;
+    }
+
+    public int getRayon(){
+        return r;
     }
 }

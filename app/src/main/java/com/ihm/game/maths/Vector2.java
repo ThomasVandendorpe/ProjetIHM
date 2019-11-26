@@ -45,4 +45,8 @@ public class Vector2 {
     public String toString() {
         return "Vector2("+x+","+y+")";
     }
+
+    public float distanceTo(Vector2 v){
+        return new Vector2(v.x-x,v.y-y).length();
+    }
 }

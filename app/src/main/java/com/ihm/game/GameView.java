@@ -3,6 +3,7 @@ package com.ihm.game;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -75,6 +76,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void addController(Controller controller){
         controllers.add(controller);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if (e.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+            Input.setCurrentTouch(true);
+        } else if (e.getAction() == android.view.MotionEvent.ACTION_UP) {
+            Input.setCurrentTouch(false);
+        }
+        return true;
+    }
+
+    public void restart(){
+        root = new RootNode();
     }
 }
 

@@ -20,7 +20,7 @@ public class PlayerNode extends Node2D {
     public Vector2 lastInputDirection = new Vector2(1,0);
     public Vector2 lastDirection = new Vector2(1,0);
 
-    private RootNode root;
+    public RootNode root;
 
     public PlayerNode(int x, int y, RootNode root){
         position = new Vector2(x,y);
@@ -35,6 +35,9 @@ public class PlayerNode extends Node2D {
 
     @Override
     public void update(float dt) {
+
+        if(root.isGameOver)
+            return;
 
         checkCollisions();
 
@@ -112,6 +115,21 @@ public class PlayerNode extends Node2D {
                 root.spawnApple();
                 setSize(size + 2);
                 setSpeed(speed + 25f);
+            }
+            else{
+                root.gameOver();
+            }
+        }
+
+        for (Node2D n : this.children) {
+            try {
+                PlayerTrailNode c = (PlayerTrailNode) n;
+                if(position.distanceTo(c.position)<rayon+c.getRayon() && c.canKill()){
+                    root.gameOver();
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
             }
         }
     }

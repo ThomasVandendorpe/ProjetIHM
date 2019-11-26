@@ -12,6 +12,10 @@ public class Input {
     private float x=0;
     private float y=0;
 
+    private boolean touch = false;
+    private boolean touchBuffer = false;
+    private boolean currentTouch = false;
+
     private int color = Color.RED;
 
     private Input(){
@@ -27,6 +31,8 @@ public class Input {
     public static void reset(){
         getInstance().x = 0;
         getInstance().y = 0;
+        getInstance().touch = getInstance().touchBuffer;
+        getInstance().touchBuffer = false;
     }
 
     public static Vector2 getAxis() {
@@ -47,5 +53,16 @@ public class Input {
 
     public static int getActionColorValue(){
         return getInstance().color;
+    }
+
+    public static boolean isScreenJustTouch(){
+        return getInstance().touch;
+    }
+
+    public static void setCurrentTouch(boolean b){
+        getInstance().currentTouch = b;
+        if(b){
+            getInstance().touchBuffer = true;
+        }
     }
 }

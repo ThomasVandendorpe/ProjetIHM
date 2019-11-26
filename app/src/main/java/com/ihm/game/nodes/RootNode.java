@@ -12,6 +12,8 @@ public class RootNode extends Node2D {
     private PlayerNode player;
     private AppleNode apple;
 
+    public boolean isGameOver = false;
+
     public RootNode(){
         player = new PlayerNode(100,100, this);
         addChild(player);
@@ -37,6 +39,13 @@ public class RootNode extends Node2D {
         }
         apple.color = color;
         addChild(apple);
+    }
+
+    public void gameOver(){
+        if(!isGameOver) {
+            addChild(new GameOverNode());
+            isGameOver = true;
+        }
     }
 
 }
