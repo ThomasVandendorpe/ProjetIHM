@@ -14,7 +14,10 @@ public class PlayerNode extends Node2D {
     public float speed = 500; //vitesse max en pixel/sec
     public int color = Color.RED;
     public int size = 1;
+    public float maxAngle = 10;
 
+
+    public Vector2 lastInputDirection = new Vector2(1,0);
     public Vector2 lastDirection = new Vector2(1,0);
 
     private RootNode root;
@@ -36,8 +39,19 @@ public class PlayerNode extends Node2D {
         checkCollisions();
 
         if(Input.getAxis().length()>0)
-            lastDirection = Input.getAxis().normalized();
-        Vector2 dir = new Vector2(lastDirection.x,lastDirection.y);
+            lastInputDirection = Input.getAxis().normalized();
+        Vector2 dir = new Vector2(lastInputDirection.x,lastInputDirection.y);
+
+        float angle = dir.angleInDegree(lastDirection);
+        if(angle>maxAngle && angle<180-maxAngle || angle<-(180-maxAngle)){
+            dir = lastDirection.rotate(maxAngle);
+        }
+        else if (angle<-maxAngle  && angle>-(180-maxAngle) || angle>(180-maxAngle)){
+            dir = lastDirection.rotate(-maxAngle);
+        }
+        lastDirection.x = dir.x;
+        lastDirection.y = dir.y;
+
         dir.x *= speed*dt;
         dir.y *= speed*dt;
         position.x += dir.x;
@@ -56,7 +70,6 @@ public class PlayerNode extends Node2D {
 
         //instanciate trail
         if(time>delayTrail){
-            System.out.println("SPAWN");
             addChild(new PlayerTrailNode(this, trailLifeTime,100f));
             time=0;
         }
