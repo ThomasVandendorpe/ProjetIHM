@@ -18,7 +18,7 @@ public class AppleNode extends Node2D {
 
     public AppleNode(int x,int y, Point screensize){
         float factor_size_y = (float)(screensize.y/1600.0);
-        float factor_size_x = (float)(screensize.y/860.0);
+        float factor_size_x = (float)(screensize.x/860.0);
         this.position = new Vector2(x,y);
         rect = new Rect(x,y,x+(int)(width*factor_size_x),y+(int)(height*factor_size_y));
     }

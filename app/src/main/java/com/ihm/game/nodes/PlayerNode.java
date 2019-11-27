@@ -22,6 +22,7 @@ public class PlayerNode extends Node2D {
     public PlayerNode(int x, int y, RootNode root){
         position = new Vector2(x,y);
         setSize(1);
+        speed = speed*((float)(MainActivity.screenSize.y/1600.0)+(float)(MainActivity.screenSize.x/860.0))/2;
         setSpeed(speed);
         this.root = root;
         float factor_size = (float)(MainActivity.screenSize.y/1600.0);
