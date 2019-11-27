@@ -13,6 +13,7 @@ import com.ihm.game.nodes.RootNode;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
+import android.graphics.Point;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
@@ -39,7 +40,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         root = new RootNode(this);
 
         setFocusable(true);
-
     }
 
     @Override

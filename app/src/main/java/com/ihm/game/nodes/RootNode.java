@@ -39,7 +39,7 @@ public class RootNode extends Node2D {
         while(newpos.distanceTo(player.position)<player.rayon*20){
             newpos = new Vector2((int)(Math.random()* (MainActivity.screenSize.x-100)),(int)(Math.random()*(MainActivity.screenSize.y-100)));
         }
-        apple = new AppleNode((int)newpos.x,(int)newpos.y);
+        apple = new AppleNode((int)newpos.x,(int)newpos.y,MainActivity.screenSize);
         int color = Color.RED;//TODO: meilleur système de couleur
         int r = (int)(Math.random() * Couleur.nbCouleurs);
         color = Couleur.COULEURS[r];
