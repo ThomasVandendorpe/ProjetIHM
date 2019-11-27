@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ihm.game.controllers.VoiceController;
+
 
 public class MainActivity extends Activity  {
 
@@ -76,6 +78,9 @@ public class MainActivity extends Activity  {
                 Couleur.nbCouleurs = progress+3;
             }
         });
+
+        if(!VoiceController.gotPermission(this))
+            VoiceController.askPermission(this);
     }
 
 }
