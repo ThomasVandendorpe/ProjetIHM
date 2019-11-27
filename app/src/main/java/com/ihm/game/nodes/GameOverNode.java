@@ -15,9 +15,9 @@ public class GameOverNode extends Node2D {
 
     public GameOverNode(GameView gv){
         this.gv = gv;
-        addChild(new TextNode("Game Over",170,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.3f),Color.RED));
-        addChild(new TextNode("Score: "+gv.root.player.score,120,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.4f),Color.YELLOW));
-        addChild(new TextNode("Touche l'écran pour rejouer",60,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.6), Color.WHITE));
+        addChild(new TextNode("Game Over",(int) (170.0*(MainActivity.screenSize.x/950.0)),MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.3f),Color.RED));
+        addChild(new TextNode("Score: "+gv.root.player.score,(int) (120.0*(MainActivity.screenSize.x/950.0)),MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.4f),Color.YELLOW));
+        addChild(new TextNode("Touche l'écran pour rejouer",(int)(60.0*(MainActivity.screenSize.x/950.0)),MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.6), Color.WHITE));
         System.out.print(MainActivity.screenSize.x);
     }
 
