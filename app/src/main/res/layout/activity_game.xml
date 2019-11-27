@@ -18,16 +18,15 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="214dp"
-        android:layout_height="216dp"
+        android:layout_width="168dp"
+        android:layout_height="170dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.67">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <io.github.controlwear.virtual.joystick.android.JoystickView
             android:id="@+id/joystick"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="166dp"
+            android:layout_height="166dp"
             app:JV_backgroundColor="#1AFFFFFF"
             app:JV_borderColor="#1AFFFFFF"
             app:JV_borderWidth="4dp"

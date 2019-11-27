@@ -38,11 +38,13 @@ public class GameActivityAccVoc extends Activity {
     protected void onPause() {
         super.onPause();
         accelerometer.onPause();
+        voiceController.disable();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         accelerometer.onResume();
+        voiceController.enable();
     }
 }

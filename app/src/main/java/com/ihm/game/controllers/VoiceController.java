@@ -11,6 +11,7 @@ import com.ihm.game.Couleur;
 import com.ihm.game.Input;
 import com.ihm.game.MainActivity;
 import android.app.Activity;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,11 +30,11 @@ public class VoiceController implements Controller, RecognitionListener {
     public VoiceController(Activity activity){
 
         // Check if user has given permission to record audio
-        int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        /*int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
             return;
-        }
+        }*/
 
         File assetsDir = null;
         try {
@@ -136,5 +137,28 @@ public class VoiceController implements Controller, RecognitionListener {
     @Override
     public void onTimeout() {
 
+    }
+
+    public void disable(){
+        recognizer.stop();
+        Log.i("VOICE","Désactivation");
+    }
+
+    public void enable(){
+        recognizer.startListening(COULEUR_SEARCH);
+        Log.i("VOICE","Activation");
+    }
+
+    public static boolean gotPermission(Activity activity){
+        int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        return permissionCheck == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void askPermission(Activity activity){
+        int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            return;
+        }
     }
 }
