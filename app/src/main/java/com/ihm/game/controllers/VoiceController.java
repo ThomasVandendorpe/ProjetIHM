@@ -7,8 +7,10 @@ import android.graphics.Color;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.ihm.game.Couleur;
 import com.ihm.game.Input;
 import com.ihm.game.MainActivity;
+import android.app.Activity;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class VoiceController implements Controller, RecognitionListener {
     private static final String COULEUR_SEARCH = "couleur";
     private SpeechRecognizer recognizer;
 
-    public VoiceController(MainActivity activity){
+    public VoiceController(Activity activity){
 
         // Check if user has given permission to record audio
         int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
@@ -87,16 +89,32 @@ public class VoiceController implements Controller, RecognitionListener {
         if(hypothesis!=null) {
             System.out.println("PROB:"+hypothesis.getProb());
             System.out.println("PARTIAL: " + hypothesis.getHypstr());
-            if(hypothesis.getHypstr().contains("rouge")) {
-                Input.setActionColor(Color.RED);
+            if(Couleur.nbCouleurs>0 && hypothesis.getHypstr().contains("rouge")) {
+                Input.setActionColor(Couleur.COULEURS[0]);
                 recognizer.stop();
             }
-            else if(hypothesis.getHypstr().contains("vert")) {
-                Input.setActionColor(Color.GREEN);
+            else if(Couleur.nbCouleurs>1 && hypothesis.getHypstr().contains("vert")) {
+                Input.setActionColor(Couleur.COULEURS[1]);
                 recognizer.stop();
             }
-            else if(hypothesis.getHypstr().contains("bleu")) {
-                Input.setActionColor(Color.BLUE);
+            else if(Couleur.nbCouleurs>2 && hypothesis.getHypstr().contains("bleu")) {
+                Input.setActionColor(Couleur.COULEURS[2]);
+                recognizer.stop();
+            }
+            else if(Couleur.nbCouleurs>3 && hypothesis.getHypstr().contains("violet")) {
+                Input.setActionColor(Couleur.COULEURS[3]);
+                recognizer.stop();
+            }
+            else if(Couleur.nbCouleurs>4 && hypothesis.getHypstr().contains("jaune")) {
+                Input.setActionColor(Couleur.COULEURS[4]);
+                recognizer.stop();
+            }
+            else if(Couleur.nbCouleurs>5 && hypothesis.getHypstr().contains("marron")) {
+                Input.setActionColor(Couleur.COULEURS[5]);
+                recognizer.stop();
+            }
+            else if(Couleur.nbCouleurs>6 && hypothesis.getHypstr().contains("orange")) {
+                Input.setActionColor(Couleur.COULEURS[6]);
                 recognizer.stop();
             }
         }

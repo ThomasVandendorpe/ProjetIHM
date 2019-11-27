@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 import com.ihm.game.controllers.Controller;
 import com.ihm.game.nodes.PlayerNode;
 import com.ihm.game.nodes.RootNode;
+import android.util.AttributeSet;
 
 import java.util.ArrayList;
 
@@ -17,15 +18,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private ArrayList<Controller> controllers;
 
-    private RootNode root;
+    public RootNode root;
 
     public GameView(Context context){
         super(context);
+        init();
+    }
+
+    public GameView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        init();
+    }
+
+    private void init(){
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(),this);
         controllers = new ArrayList<>();
 
-        root = new RootNode();
+        root = new RootNode(this);
 
         setFocusable(true);
 
@@ -89,7 +100,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void restart(){
-        root = new RootNode();
+        root = new RootNode(this);
     }
 }
 

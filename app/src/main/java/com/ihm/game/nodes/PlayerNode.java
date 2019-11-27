@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import com.ihm.game.Couleur;
 import com.ihm.game.Input;
 import com.ihm.game.MainActivity;
 import com.ihm.game.maths.Vector2;
@@ -12,10 +14,10 @@ public class PlayerNode extends Node2D {
 
     public int rayon = 30;
     public float speed = 500; //vitesse max en pixel/sec
-    public int color = Color.RED;
+    public int color = Couleur.COULEURS[0];
     public int size = 1;
     public float maxAngle = 10;
-
+    public int score = 0;
 
     public Vector2 lastInputDirection = new Vector2(1,0);
     public Vector2 lastDirection = new Vector2(1,0);
@@ -114,7 +116,8 @@ public class PlayerNode extends Node2D {
             if(apple.color == color) {
                 root.spawnApple();
                 setSize(size + 2);
-                setSpeed(speed + 25f);
+                setSpeed(speed + 15f);
+                score++;
             }
             else{
                 root.gameOver();

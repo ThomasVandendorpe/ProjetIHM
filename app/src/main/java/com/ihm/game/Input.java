@@ -16,7 +16,7 @@ public class Input {
     private boolean touchBuffer = false;
     private boolean currentTouch = false;
 
-    private int color = Color.RED;
+    private int color = Couleur.COULEURS[0];
 
     private Input(){
 

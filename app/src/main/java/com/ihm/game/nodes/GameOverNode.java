@@ -5,13 +5,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.ihm.game.GameView;
 import com.ihm.game.Input;
 import com.ihm.game.MainActivity;
 
 public class GameOverNode extends Node2D {
 
-    public GameOverNode(){
-        addChild(new TextNode("Game Over",120,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.4f),Color.RED));
+    private GameView gv;
+
+    public GameOverNode(GameView gv){
+        this.gv = gv;
+        addChild(new TextNode("Game Over",170,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.3f),Color.RED));
+        addChild(new TextNode("Score: "+gv.root.player.score,120,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.4f),Color.YELLOW));
         addChild(new TextNode("Touche l'écran pour rejouer",60,MainActivity.screenSize.x/2,(int)(MainActivity.screenSize.y*0.6), Color.WHITE));
         System.out.print(MainActivity.screenSize.x);
     }
@@ -20,7 +25,7 @@ public class GameOverNode extends Node2D {
     public void update(float dt) {
         if(Input.isScreenJustTouch()){
             System.out.println("Touch!");
-            MainActivity.gv.restart();
+            gv.restart();
         }
     }
 
